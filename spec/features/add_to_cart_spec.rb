@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Visitor navigates directly to products detail page by clicking one of the product partials", type: :feature, js: true do
+RSpec.feature "Visitor clicks on add to cart button and increases my cart by 1", type: :feature, js: true do
 
   #SETUP 
   before :each do 
@@ -14,14 +14,16 @@ RSpec.feature "Visitor navigates directly to products detail page by clicking on
       price: 64.99
     )
   end
-  # link_to product, class: 'btn btn-default pull-right'
+  # button class: 'btn btn-primary'
   scenario "They see all products" do
     # ACT
     visit root_path
 
+    expect(page).to have_text 'My Cart (0)'
+
     #VERIFY
-    find("a.btn").click 
-    expect(page).to have_css 'article.product-detail'
+    click_button("Add") 
+    expect(page).to have_text 'My Cart (1)'
     
     # DEBUG / VERIFY
     save_screenshot
